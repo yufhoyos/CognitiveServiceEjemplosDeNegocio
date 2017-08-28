@@ -28,3 +28,5 @@ Microsoft.Bing.Speech
 ```
 
 
+## Tambien puedes Jugar un poco con los servicios
+[Cognitive Services](https://eastus2.dev.cognitive.microsoft.com/docs/services) - ahi podras escoger en que Servicio quieres probar
