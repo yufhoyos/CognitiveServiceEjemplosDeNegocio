@@ -102,6 +102,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\ContentModeratorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FaceDetectWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -111,7 +115,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ViewModels\ContentModeratorWindowViewModel.cs" />
     <Compile Include="ViewModels\FaceDetectWindowViewModel.cs" />
+    <Compile Include="Views\ContentModeratorWindow.xaml.cs">
+      <DependentUpon>ContentModeratorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FaceDetectWindow.xaml.cs">
       <DependentUpon>FaceDetectWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

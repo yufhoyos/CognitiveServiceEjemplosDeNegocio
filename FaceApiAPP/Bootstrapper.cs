@@ -9,7 +9,8 @@ namespace FaceApiAPP
     {
         protected override DependencyObject CreateShell()
         {
-            return Container.Resolve<FaceDetectWindow>();
+            return Container.Resolve<ContentModeratorWindow>();
+            //return Container.Resolve<FaceDetectWindow>();
         }
 
         protected override void InitializeShell()

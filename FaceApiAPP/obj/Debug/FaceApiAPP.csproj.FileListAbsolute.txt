@@ -43,3 +43,5 @@ D:\demos\CognitiveServiceEjemplosDeNegocio\FaceApiAPP\obj\Debug\Views\FaceDetect
 D:\demos\CognitiveServiceEjemplosDeNegocio\FaceApiAPP\bin\Debug\Helper.dll
 D:\demos\CognitiveServiceEjemplosDeNegocio\FaceApiAPP\bin\Debug\Helper.pdb
 D:\demos\CognitiveServiceEjemplosDeNegocio\FaceApiAPP\bin\Debug\Helper.dll.config
+D:\demos\CognitiveServiceEjemplosDeNegocio\FaceApiAPP\obj\Debug\Views\ContentModeratorWindow.baml
+D:\demos\CognitiveServiceEjemplosDeNegocio\FaceApiAPP\obj\Debug\Views\ContentModeratorWindow.g.cs
