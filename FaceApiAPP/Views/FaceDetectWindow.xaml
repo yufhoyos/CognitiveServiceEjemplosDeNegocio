@@ -4,33 +4,53 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:controls="clr-namespace:WPFMediaKit.DirectShow.Controls;assembly=WPFMediaKit"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="750" Width="1000">
+        Title="{Binding Title}" Height="950" Width="1000">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*" />
-            <ColumnDefinition Width="50*" />
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-            <Button x:Name="btnOpen" Command="{Binding AbrirFoto1}" Content="Cargar Foto 1"  Padding="4" Margin="4"></Button>
-            <controls:MediaUriElement x:Name="mediaUriElement" Source="{Binding MediaElementSource1}" Margin="10" Height="400" HorizontalAlignment="Stretch"></controls:MediaUriElement>
-            <ScrollViewer Height="270" VerticalAlignment="Stretch">
-                <TextBlock Text="{Binding FaceApeVal1}" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>        
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*" />
+                <ColumnDefinition Width="50*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Column="0">
+                <Button x:Name="btnOpen" Command="{Binding AbrirFoto1}" Content="Cargar Foto 1"  Padding="4" Margin="4"></Button>
+                <controls:MediaUriElement x:Name="mediaUriElement" Source="{Binding MediaElementSource1}" Margin="10" Height="400" HorizontalAlignment="Stretch"></controls:MediaUriElement>
+                <ScrollViewer Height="270" VerticalAlignment="Stretch">
+                    <TextBlock Text="{Binding FaceApiVal1}" 
+                           TextAlignment="Justify" TextWrapping="Wrap" 
+                           Margin="10" HorizontalAlignment="Stretch" Height="Auto"
+                           ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="True"/>
+                </ScrollViewer>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="1">
+                <Button x:Name="btnOpen2" Command="{Binding AbrirFoto2}" Content="Cargar Foto 2"  Padding="4" Margin="4"></Button>
+                <controls:MediaUriElement x:Name="mediaUriElement2" Source="{Binding MediaElementSource2}" Margin="4" Height="400" HorizontalAlignment="Stretch"></controls:MediaUriElement>
+                <ScrollViewer Height="270" VerticalAlignment="Stretch">
+                    <TextBlock Text="{Binding FaceApiVal2}" 
+                           TextAlignment="Justify" TextWrapping="Wrap" 
+                           Margin="10" HorizontalAlignment="Stretch" Height="Auto"
+                           ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="True"/>
+                </ScrollViewer>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*" />
+                <ColumnDefinition Width="50*" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnComparar" Command="{Binding Comparar}" Content="Comparar Fotos" VerticalAlignment="Top"  Padding="4" Margin="4"></Button>
+            <Button x:Name="btnSubirAlGrupo" Command="{Binding SubirAlGrupo}" Content="Subir Al Grupo" VerticalAlignment="Center"  Padding="4" Margin="4"></Button>
+            <Button x:Name="btnBuscarEnGrupo" Command="{Binding BuscarEnGrupo}" Content="Buscar En Grupo" VerticalAlignment="Bottom"  Padding="4" Margin="4"></Button>
+            <ScrollViewer Height="190" VerticalAlignment="Stretch" Grid.Column="1">
+                <TextBlock Text="{Binding FaceApiCompareVal}" 
                            TextAlignment="Justify" TextWrapping="Wrap" 
                            Margin="10" HorizontalAlignment="Stretch" Height="Auto"
                            ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="True"/>
             </ScrollViewer>
-        </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Column="1">
-            <Button x:Name="btnOpen2" Command="{Binding AbrirFoto2}" Content="Cargar Foto 2"  Padding="4" Margin="4"></Button>
-            <controls:MediaUriElement x:Name="mediaUriElement2" Source="{Binding MediaElementSource2}" Margin="4" Height="400" HorizontalAlignment="Stretch"></controls:MediaUriElement>
-            <ScrollViewer Height="270" VerticalAlignment="Stretch">
-                <TextBlock Text="{Binding FaceApeVal2}" 
-                           TextAlignment="Justify" TextWrapping="Wrap" 
-                           Margin="10" HorizontalAlignment="Stretch" Height="Auto"
-                           ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="True"/>
-            </ScrollViewer>
-        </StackPanel>
-
+        </Grid>
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
     </Grid>
 </Window>

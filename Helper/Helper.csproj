@@ -93,6 +93,7 @@
   <ItemGroup>
     <Compile Include="FaceApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rostro.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

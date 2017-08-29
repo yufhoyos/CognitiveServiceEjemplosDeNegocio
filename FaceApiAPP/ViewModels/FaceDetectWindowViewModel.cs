@@ -8,32 +8,43 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace FaceApiAPP.ViewModels
 {
     public class FaceDetectWindowViewModel : BindableBase
     {
         private string _title = "Face Api Demo";
-        private string _faceApeVal1 = "";
-        private string _faceApeVal2 = "";
+        private string _faceApiVal1 = "";
+        private string _faceApiVal2 = "";
+        private string _filename1 = "";
+        private string _filename2 = "";
+        private string _faceApiCompareVal = "";
         private Uri _mediaElementSource1;
         private Uri _mediaElementSource2;
+        private FaceApi faceApi;
         public string Title
         {
             get { return _title; }
             set { SetProperty(ref _title, value); }
         }
 
-        public string FaceApeVal2
+        public string FaceApiVal2
         {
-            get { return _faceApeVal2; }
-            set { SetProperty(ref _faceApeVal2, value); }
+            get { return _faceApiVal2; }
+            set { SetProperty(ref _faceApiVal2, value); }
         }
 
-        public string FaceApeVal1
+        public string FaceApiVal1
         {
-            get { return _faceApeVal1; }
-            set { SetProperty(ref _faceApeVal1, value); }
+            get { return _faceApiVal1; }
+            set { SetProperty(ref _faceApiVal1, value); }
+        }
+
+        public string FaceApiCompareVal
+        {
+            get { return _faceApiCompareVal; }
+            set { SetProperty(ref _faceApiCompareVal, value); }
         }
 
         public Uri MediaElementSource1
@@ -51,53 +62,103 @@ namespace FaceApiAPP.ViewModels
 
         public DelegateCommand AbrirFoto1 { get; private set; }
         public DelegateCommand AbrirFoto2 { get; private set; }
+        public DelegateCommand Comparar { get; private set; }
+        public DelegateCommand SubirAlGrupo { get; private set; }
+        public DelegateCommand BuscarEnGrupo { get; private set; }
 
         public FaceDetectWindowViewModel()
         {
-            AbrirFoto1 = new DelegateCommand(AbrirFoto1Async, CanAbrirFoto1);
-            AbrirFoto2 = new DelegateCommand(AbrirFoto2Async, CanAbrirFoto2);
+            AbrirFoto1 = new DelegateCommand(AbrirFoto1Async);
+            AbrirFoto2 = new DelegateCommand(AbrirFoto2Async);
+            Comparar = new DelegateCommand(CompararAsync);
+            SubirAlGrupo = new DelegateCommand(SubirAlGrupoAsync);
+            BuscarEnGrupo = new DelegateCommand(BuscarEnGrupoAsync);
+            faceApi = new FaceApi();
         }
 
-        private bool CanAbrirFoto1()
+        private async void BuscarEnGrupoAsync()
         {
-            return true;
+            FaceApiCompareVal = "";
+            if (!string.IsNullOrEmpty(_filename1))
+            {
+                try
+                {
+                    var resultado=await faceApi.BuscarRostroEnGrupo("grupomdenet", _filename1);
+                    FaceApiCompareVal = resultado;
+                }
+                catch (Exception ex)
+                {
+                    FaceApiCompareVal = $"Error {ex.Message}";
+                }
+            }
         }
 
-        private bool CanAbrirFoto2()
+        private async void SubirAlGrupoAsync()
         {
-            return true;
+            if (!string.IsNullOrEmpty(_filename1))
+            {
+                try
+                {
+                    await faceApi.SubirRostroAGrupo("grupomdenet",_filename1);
+                }
+                catch (Exception ex)
+                {
+                    FaceApiCompareVal = $"Error {ex.Message}";
+                }
+            }
+        }
+        
+        private async void CompararAsync()
+        {
+            FaceApiCompareVal = "";
+            if (!string.IsNullOrEmpty(_filename1) && !string.IsNullOrEmpty(_filename2))
+            {
+                try
+                {
+                    var comparacion = await faceApi.ComprarRostros(_filename1, _filename2);
+                    FaceApiCompareVal = comparacion;
+                }
+                catch (Exception ex)
+                {
+                    FaceApiCompareVal = $"Error {ex.Message}";
+                }
+            }
         }
 
         private async void AbrirFoto2Async()
         {
-            var filename = AbrirFoto();
-            if (!string.IsNullOrEmpty(filename))
+            _filename2 = AbrirFoto();
+            FaceApiVal2 = "";
+            if (!string.IsNullOrEmpty(_filename2))
             {
-                MediaElementSource2 = new Uri(filename);
+                MediaElementSource2 = new Uri(_filename2);
                 try
                 {
-                    FaceApeVal2 = await FaceApi.AnalizarRostros(filename);
+                    var rostros = await faceApi.AnalizarRostros(_filename2, true);
+                    FaceApiVal2 = rostros.FirstOrDefault().FaceObj;
                 }
                 catch (Exception ex)
                 {
-
+                    FaceApiVal2 = $"Error {ex.Message}";
                 }
             }
         }
 
         private async void AbrirFoto1Async()
         {
-            var filename = AbrirFoto();
-            if (!string.IsNullOrEmpty(filename))
+            _filename1 = AbrirFoto();
+            FaceApiVal1 = "";
+            if (!string.IsNullOrEmpty(_filename1))
             {
-                MediaElementSource1 = new Uri(filename);
+                MediaElementSource1 = new Uri(_filename1);
                 try
                 {
-                    FaceApeVal1 = await FaceApi.AnalizarRostros(filename);
+                    var rostros = await faceApi.AnalizarRostros(_filename1, true);
+                    FaceApiVal1 = rostros.FirstOrDefault().FaceObj;
                 }
                 catch (Exception ex)
                 {
-
+                    FaceApiVal1 = $"Error {ex.Message}";
                 }
             }
         }
