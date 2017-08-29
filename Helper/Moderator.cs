@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -59,6 +60,39 @@ namespace Helper
             await requestHelperManagement.PostAsync<ListaRefresh>($"/termlists/{ListaCodigo}/RefreshIndex?language=spa");
             return true;
         }
+
+        public async Task<string> Moderar(string Contenido, int ListaCodigo)
+        {
+            var res = await requestHelperModerate.PostTextAsync<ModerarResult, string>($"/ProcessText/Screen/?language=spa&listId={ListaCodigo}", Contenido);
+            return JsonConvert.SerializeObject(res, Formatting.Indented);
+        }
+    }
+
+    public class ModerarResult
+    {
+        public string OriginalText { get; set; }
+        public string NormalizedText { get; set; }
+
+        public string Language { get; set; }
+        public List<TerminoMod> Terms { get; set; }
+
+        public StatusMod Status { get; set; }
+
+    }
+
+    public class StatusMod
+    {
+        public int Code { get; set; }
+        public string Description { get; set; }
+        public string Exception { get; set; }
+    }
+
+    public class TerminoMod
+    {
+        public int Index { get; set; }
+        public int OriginalIndex { get; set; }
+        public int ListId { get; set; }
+        public string Term { get; set; }
     }
 
     public class CrearListaObj

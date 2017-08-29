@@ -53,6 +53,18 @@ namespace Helper
             return JsonConvert.DeserializeObject<TResult>(responseData, _serializerSettings);
         }
 
+        public async Task<TResult> PostTextAsync<TResult, T>(string uri, string data, string authenticationToken = null)
+        {
+            HandleAuthorization(authenticationToken);
+            uri = _httpClient.BaseAddress + uri;
+            var response = await _httpClient.PostAsync(uri, new StringContent(data, Encoding.UTF8, "text/plain"));
+            var responseData = await response.Content.ReadAsStringAsync();
+            //SI !IsSuccessStatusCode lanza Exception
+            HandleResponse(response.IsSuccessStatusCode, response.ReasonPhrase, response.StatusCode, responseData);
+
+            return JsonConvert.DeserializeObject<TResult>(responseData, _serializerSettings);
+        }
+
         public async Task<TResult> PostAsync<TResult>(string uri, string authenticationToken = null)
         {
             HandleAuthorization(authenticationToken);

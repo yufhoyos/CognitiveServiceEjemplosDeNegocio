@@ -40,11 +40,14 @@ namespace FaceApiAPP.ViewModels
 
         public DelegateCommand Moderar { get; private set; }
         public DelegateCommand IngresarTermino { get; private set; }
+
+        private int ListaCodigo;
         public ContentModeratorWindowViewModel()
         {
             Moderar = new DelegateCommand(ModerarAsync);
             IngresarTermino = new DelegateCommand(IngresarTerminoAsync);
             moderator = new Moderator();
+            ListaCodigo = 20;
         }
 
         private async void IngresarTerminoAsync()
@@ -53,19 +56,29 @@ namespace FaceApiAPP.ViewModels
             {
                 try
                 {
-                    var resultado = await moderator.IngresarTermino(Termino, 20, "terminosgroseros");
+                    var resultado = await moderator.IngresarTermino(Termino, ListaCodigo, "terminosgroseros");
                     TerminosModerar = new ObservableCollection<string>(resultado.Data.Terms.Select(t => t.Term));
                 }
                 catch (Exception ex)
                 {
-                    //FaceApiCompareVal = $"Error {ex.Message}";
+                   
                 }
             }
         }
 
-        private void ModerarAsync()
+        private async void ModerarAsync()
         {
-
+            if (!string.IsNullOrEmpty(Contenido))
+            {
+                try
+                {
+                    ContenidoModerado = await moderator.Moderar(Contenido, ListaCodigo);
+                }
+                catch (Exception ex)
+                {
+                    
+                }
+            }
         }
     }
 }
